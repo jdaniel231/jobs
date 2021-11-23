@@ -5,6 +5,7 @@ import theme from './theme/theme';
 import SearchBar from "./componets/SearchBar";
 import JobCards from "./componets/Job/JobCards";
 import NewJobModal from "./componets/Job/NewJobModal";
+import jobData from "./dummyData";
 
 export default () => {
   return (
@@ -14,8 +15,8 @@ export default () => {
     <Grid container justify="center">
       <Grid xs={10}>
         <SearchBar />
-
-        <JobCards />
+        
+        {jobData.map(job => <JobCards key={job.id} {...job} />)}
       </Grid>
     </Grid>
   </ThemeProvider>

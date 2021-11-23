@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, Typography, Button, makeStyles } from "@material-ui/core";
+import { differenceInMinutes } from "date-fns";
 
-const skills = ["Javascript", "React.js", "Node.js"]
 
 const useStyles = makeStyles((theme) =>({
   wrapper: {
@@ -39,16 +39,16 @@ export default (props) => {
     <Box p={2} className={classes.wrapper}>
       <Grid container alignItems="center">
         <Grid item xs>
-          <Typography  variant="subtitle1">Frontend</Typography>
-          <Typography className={classes.companyName} variant="subtitle1">Google</Typography>
+          <Typography  variant="subtitle1">{props.title}</Typography>
+          <Typography className={classes.companyName} variant="subtitle1">{props.companyName}</Typography>
         </Grid>
         <Grid  container item xs>
-          {skills.map(skill => <Grid className={classes.skillChip} item key={skill}>{skill}</Grid>)}
+          {props.skills.map(skill => <Grid className={classes.skillChip} item key={skill}>{skill}</Grid>)}
         </Grid>
         <Grid item container xs direction="column" alignItems="flex-end">
           <Grid item>
             <Typography variant="caption">
-              2577 min ago | Full-Time
+              {differenceInMinutes(Date.now(), props.postedOn)} minutos | {props.type} | {props.location}
             </Typography>
           </Grid>
           <Grid item>
