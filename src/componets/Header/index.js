@@ -7,7 +7,7 @@ export default (props) =>(
       <Grid item xs={10}>
         <Box display="flex" justifyContent="space-between">
           <Typography variant="h4">Lista de empregos</Typography>
-          <Button variant="contained" color="primary" disableElevation> Postar Emprego</Button>
+          <Button onClick={props.openNewJobModal} variant="contained" color="primary" disableElevation> Postar Emprego</Button>
         </Box> 
       </Grid>
     </Grid>

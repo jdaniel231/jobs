@@ -5,11 +5,12 @@ import theme from './theme/theme';
 import SearchBar from "./componets/SearchBar";
 import JobCards from "./componets/Job/JobCards";
 import NewJobModal from "./componets/Job/NewJobModal";
-import { firestore } from "./firebase/config";
+import { firestore, app } from "./firebase/config";
 
 export default () => {
   const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+  const [newJobMobal, setNewJobMobal] = useState(false);
 
   const fetchJobs =  async () => {
     const req = await firestore.collection('jobs').orderBy('postedOn', 'desc').get();
@@ -19,14 +20,28 @@ export default () => {
     setLoading(false);
   }
 
+  const postJob = async jobDetails => {
+    await firestore.collection('jobs').add({
+      ...jobDetails,
+      postedOn: app.firestore.FieldValue.serverTimestamp()
+    })
+    fetchJobs(); 
+  }
+
   useEffect(() =>{
     fetchJobs();
   }, [])
 
   return (
   <ThemeProvider theme={theme}>
-    <Header />
-    <NewJobModal />
+    <Header openNewJobModal={() => setNewJobMobal(true)} />
+    <NewJobModal 
+      closeModal={
+        () => setNewJobMobal(false)
+      } 
+      newJobMobal={newJobMobal}  
+      postJob={postJob} 
+    />
     <Grid container justify="center">
       <Grid xs={10}>
         <SearchBar />
