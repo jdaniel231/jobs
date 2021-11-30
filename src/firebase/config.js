@@ -8,7 +8,7 @@ const firebaseConfig = {
   projectId: "job-listing-b5db0",
   storageBucket: "job-listing-b5db0.appspot.com",
   messagingSenderId: "161528975167",
-  appId: "1:161528975167:web:9583bebb06ee01cce88d8a"
+  appId: "1:161528975167:web:1968c89edb0aad27e88d8a"
 };
 
 
