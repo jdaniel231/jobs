@@ -78,7 +78,7 @@ export default (props) => {
   const closeModal = () => { 
     setJobDetails(initState);
     setLoading(false);
-    props.closeModal();
+    props.closeModal(); 
   };
       
   
