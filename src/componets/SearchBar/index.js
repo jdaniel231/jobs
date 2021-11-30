@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Button, Select, MenuItem, makeStyles } from "@material-ui/core";
+import React,{ useState }  from "react";
+import { Box, Button, Select, MenuItem, makeStyles, CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -16,22 +16,47 @@ const useStyles = makeStyles({
 })
 
 export default (props) => {
+  const [loading, setLoading] = useState(false)
+  const [jobSearch, setJobSearch ] = useState({ 
+    type: 'Full time',
+    location: 'Remote',
+  })
+
+  const handleChange = e => {
+    e.persist();
+    setJobSearch(oldState => ({ 
+      ...oldState, 
+      [e.target.name] : e.target.value 
+    }));
+  }
+
+  const search = async () => {
+    setLoading(true);
+    await props.fetchJobsCustom(jobSearch)
+    setLoading(false);
+  }
 
   const classes = useStyles()
 
   return (
     <Box px={2} mt={-5} mb={2} className={classes.wrapper}>
-      <Select disableUnderline variant="filled" defaultValue="Full time">
+      <Select value={jobSearch.type} name='type' onChange={handleChange} disableUnderline variant="filled" defaultValue="Full time">
         <MenuItem value="Full time">Full Time</MenuItem>
         <MenuItem value="Part time">Part Time</MenuItem>
         <MenuItem value="Contract">Contract</MenuItem>
       </Select>
-      <Select disableUnderline variant="filled" defaultValue="Remote">
+      <Select value={jobSearch.location} name='location' onChange={handleChange} disableUnderline variant="filled" defaultValue="Remote">
         <MenuItem value="Remote">Remote</MenuItem>
         <MenuItem value="in-Office">in-Office</MenuItem>
       </Select>
-      <Button variant="contained" color="primary" disableElevation> 
-          Search 
+      <Button disabled={loading} variant="contained" color="primary" disableElevation onClick={search}> 
+        {loading ?( 
+          <CircularProgress color="secondary" size={22} /> 
+          )
+          :(
+            "Search"
+          )
+        }
       </Button>
     </Box>
   )
